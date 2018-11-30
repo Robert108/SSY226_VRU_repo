@@ -3,6 +3,7 @@
 filename  = 'walk_kuggen.csv';
 fid = fopen(filename,'rt');
 s.ALLsens = [];
+GPS = [];
 g = 9.82; % convert from g to m/s^2
 
 while true
@@ -21,7 +22,10 @@ while true
         temp = [3, time, str2num(cell2mat(C(3))), str2num(cell2mat(C(4))),str2num(cell2mat(C(5)))];
         s.ALLsens = [s.ALLsens; temp];
     elseif C(1) == "GPS" 
-        temp = [4, time, str2num(cell2mat(C(3))), str2num(cell2mat(C(4))), str2num(cell2mat(C(5)))];
+        temp_lat = convertGPS(str2num(cell2mat(C(4))));
+        temp_long =  convertGPS(str2num(cell2mat(C(3))));
+        temp = [4, time,temp_lat , temp_long, str2num(cell2mat(C(5)))];
+        GPS = [GPS; temp];
         s.ALLsens = [s.ALLsens; temp];
     end
   end
