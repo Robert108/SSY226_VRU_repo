@@ -11,6 +11,7 @@ earth = referenceSphere('Earth');
 
 pos_initalized = false;
 t0             = s.ALLsens(1,2);
+t_prev         = s.ALLsens(1,2);
 lastGyrData    = zeros(1,3);
 nx             = 4; % Assuming that you use q as state variable.
  
@@ -18,17 +19,21 @@ nx             = 4; % Assuming that you use q as state variable.
   xhat.x = ones(nx, 1);
   xhat.P = ones(nx, nx, 1);
             
-  xv = zeros(4,1); xp = zeros(4,1); 
-  yv = zeros(4,1); yp = zeros(4,1);
+  xv = 0; 
+  xp = 0;
+  yv = 0; 
+  yp = 0;
+  xv_prev = 0;
+  yv_prev = 0;
 
-for i = 1:length(s.ALLsens)
+for i = 1:8000%length(s.ALLsens)
     
     Ydata = s.ALLsens(i,:);
     
     if Ydata(1) == 4 % GPS measurment. 
-        if ~pos_initalized 
-            ipos_long = Ydata(3);
-            ipos_lat  = Ydata(4);
+        if ~pos_initalized             
+            ipos_lat  = Ydata(3);
+            ipos_long = Ydata(4);
             ipos_alt  = Ydata(5);
             pos_initalized = true;
         end
@@ -36,7 +41,7 @@ for i = 1:length(s.ALLsens)
         ecef = lla2ecef(lla);
         % Get new GPS pos
         [GPS_East, GPS_North, zUp] = ecef2enu(ecef(:,1), ecef(:,2), ecef(:,3), ...
-                                              ipos_long, ipos_lat, ipos_alt, earth); % Origin at the first GPS position
+                                              ipos_lat, ipos_long, ipos_alt, earth); % Origin at the first GPS position
         
         % Plot GPS position                     
         plot(GPS_East, GPS_North, '.')
@@ -48,12 +53,12 @@ for i = 1:length(s.ALLsens)
     if Ydata(1) ~= 4 % IMU measurment. update pose and/or dx-dy
         
         if Ydata(1) == 1 % Acceleration meas
-            t      = Ydata(2)  
-            dtAcc  = t - t_prev
+            t      = Ydata(2);
+            dtAcc  = t - t_prev;
             t_prev = t;
         else
-            t     = Ydata(2) 
-            dt    = t - t0
+            t     = Ydata(2); 
+            dt    = t - t0;
             t0    = t;
         end
     
@@ -61,24 +66,25 @@ for i = 1:length(s.ALLsens)
         rotm = quat2rotm(xhat.x'); % Might have todo some conversion to get absolute east-north direction. 
     
        if Ydata(1) == 1  % Update dx-dy with acceleration measurment
-           xyz_acc(1:3) = rotm(:,:)*(Ydata(3:5)'-[0 0 9.82]');   % Remove effect of pose on acc values
+           xyz_acc(1:3) = rotm(:,:)*(Ydata(3:5)'); %-[0 0 9.82]');   % Remove effect of pose on acc values
                                                      % Should we remove g? -[0 0 9.8]
-           xv = xv + dtAcc*xyz_acc(1);              
-           yv = yv + dtAcc*xyz_acc(2);
+           xv = xv_prev + dtAcc*xyz_acc(1);              
+           yv = yv_prev + dtAcc*xyz_acc(2);
+           xv_prev = xv;
+           yv_prev = yv;
 
            xp_dot = xp + dtAcc*xv + dtAcc^2/2*xyz_acc(1);
            yp_dot = yp + dtAcc*yv + dtAcc^2/2*xyz_acc(2);
            xp = xp_dot;
            yp = yp_dot;
+           
+           plot(xp, yp, '.')
+           hold on
+           axis equal 
        end
     
     end
     
-%     if ~any(isnan(acc))  % Acc measurements are available and outlier free.
-%         [X, P, ~, ~] = kalmanFilter(Y, x_0, P_0, A, Q, H, R);      
-%         [x, P] = mu_normalizeQ(x, P);
-%         
-%     end
    
     
 end
