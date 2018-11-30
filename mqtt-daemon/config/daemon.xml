@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mqttspydc:MqttSpyDaemonConfiguration xmlns:mqttspydc="http://baczkowicz.pl/mqtt-spy/daemon/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Connection>
+    <!-- Port number is optional (default is 1883) -->
+    <ServerURI>mqtt-broker</ServerURI>
+            
+    <!-- Leave empty to auto-generate -->
+    <ClientID></ClientID>
+
+    <ReconnectionSettings>
+      <RetryInterval>5000</RetryInterval>				
+      <Resubscribe>true</Resubscribe>
+    </ReconnectionSettings>
+
+    <MessageLog>DISABLED</MessageLog>
+
+    <BackgroundScript repeat="true">
+      <File>/config/replay.js</File>
+    </BackgroundScript>
+
+  </Connection>
+</mqttspydc:MqttSpyDaemonConfiguration>

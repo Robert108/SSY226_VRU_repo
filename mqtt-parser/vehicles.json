@@ -1,0 +1,57 @@
+{
+  "YV3U1W12XG1177002": {
+    "propulsion": "electric",
+    "reg_nr": "UXD538",
+    "type": "bus"
+  },
+  "YV3U0V222FA100020": {
+    "propulsion": "electric",
+    "reg_nr": "EPO131",
+    "type": "bus"
+  },
+  "YV3U0V222FA100021": {
+    "propulsion": "electric",
+    "reg_nr": "EPO136",
+    "type": "bus"
+  },
+  "YV3U0V222FA100022": {
+    "propulsion": "electric",
+    "reg_nr": "EPO143",
+    "type": "bus"
+  },
+  "YV3T1U22XF1171164": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG604",
+    "type": "bus"
+  },
+  "YV3T1U225F1171234": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG606",
+    "type": "bus"
+  },
+  "YV3T1U227F1171235": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG616",
+    "type": "bus"
+  },
+  "YV3T1U221F1171327": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG622",
+    "type": "bus"
+  },
+  "YV3T1U223F1171328": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG627",
+    "type": "bus"
+  },
+  "YV3T1U225F1171329": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG631",
+    "type": "bus"
+  },
+  "YV3T1U223F1171330": {
+    "propulsion": "hybrid",
+    "reg_nr": "EOG634",
+    "type": "bus"
+  }
+}

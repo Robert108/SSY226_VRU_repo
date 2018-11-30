@@ -1,0 +1,7 @@
+.App_Header {
+  height: 60px;
+}
+
+.App_Map {
+  height: calc(100vh - 60px);
+}

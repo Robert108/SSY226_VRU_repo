@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VehicleSim.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "az1"
+    }
+  }
+}

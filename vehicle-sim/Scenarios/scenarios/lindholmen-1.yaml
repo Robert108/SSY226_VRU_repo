@@ -1,0 +1,23 @@
+﻿name: ln1
+description: A bus catches up to a bike outside Ericsson
+
+vehicles:
+  bike1:
+    type: bicycle
+    route:
+      - time: 0 # About 40m ahead of the bus
+        latitude: 57.70614
+        longitude: 11.94171
+      - time: 30 # About 20m behind the bus
+        latitude: 57.70804
+        longitude: 11.94018
+
+  bus1:
+    type: bus
+    route:
+      - time: 0 # End of pier outside Ericsson
+        latitude: 57.70492
+        longitude: 11.94264
+      - time: 30 # At Lindholmen alle
+        latitude: 57.70854
+        longitude: 11.93968

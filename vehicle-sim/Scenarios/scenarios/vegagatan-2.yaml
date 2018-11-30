@@ -1,0 +1,19 @@
+﻿name: vega2
+description: A car drives south on Värmlandsgatan to Vegagatan
+
+vehicles:
+  demo-car-vega2:
+    type: car
+    route:
+      - time: 0
+        latitude:  57.699560
+        longitude: 11.946152
+      - time: 19
+        latitude:  57.697772
+        longitude: 11.946784
+      - time: 30
+        latitude:  57.696890
+        longitude: 11.948046
+      - time: 50
+        latitude:  57.694985
+        longitude: 11.948053

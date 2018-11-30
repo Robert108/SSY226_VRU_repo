@@ -1,0 +1,142 @@
+version: "2.3"
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:1.4.12
+    volumes:
+      - mqtt-broker:/mosquitto # Contains config, persistent storage and logs
+      - ../mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - "1883:1883"
+
+  mqtt-daemon:
+    build: ../mqtt-daemon
+    volumes:
+      - ../mqtt-daemon/config:/config:ro
+    depends_on:
+      - mqtt-broker
+
+  mqtt-parser:
+    build: ../mqtt-parser
+    volumes:
+      - ../mqtt-parser/vehicles.json:/usr/src/app/vehicles.json:ro
+    depends_on:
+      - mqtt-broker
+      - nats-server
+    environment:
+      - MQTT_URL=mqtt://mqtt-broker:1883
+      - NATS_URL=nats://nats-server:4222
+      - NATS_USER=backend
+      - NATS_PASS=Z2mJM8mlK44RWFJ5zw42jK
+
+  mqtt-vor-parser:
+    build: ../mqtt-vor-parser
+    volumes:
+      - ../mqtt-vor-parser/vehicles.json:/usr/src/app/vehicles.json:ro
+    depends_on:
+      - mqtt-broker
+      - nats-server
+    environment:
+      - MQTT_URL=mqtt://mqtt-broker:1883
+      - NATS_URL=nats://nats-server:4222
+      - NATS_USER=backend
+      - NATS_PASS=Z2mJM8mlK44RWFJ5zw42jK
+
+  nats-server:
+    image: nats:1.1.0
+    volumes:
+      - ../nats-server/nats.conf:/gnatsd.conf:ro
+    ports:
+      - "4222:4222"
+    environment:
+      - NATS_PASS_BACKEND=Z2mJM8mlK44RWFJ5zw42jK
+      - NATS_PASS_VEHICLE=EZhqywXroaabVB2lNHOzMv
+
+  nats-forwarder:
+    build: ../nats-forwarder
+    depends_on:
+      - mqtt-broker
+      - nats-server
+    environment:
+      - MQTT_URL=mqtt://mqtt-broker:1883
+      - NATS_URL=nats://nats-server:4222
+      - NATS_USER=monitor
+      - NATS_PASS=monitor
+      - NATS_SUBS=vehicle.>,collision_avoidance.>
+
+  collision-bike-bus:
+    build: ../collision_detector
+    volumes:
+      - ./collision-bike-bus.yml:/usr/src/app/config.yaml:ro
+    depends_on:
+      - nats-server
+
+  collision-car-person:
+    build: ../collision_detector
+    volumes:
+      - ./collision-car-person.yml:/usr/src/app/config.yaml:ro
+    depends_on:
+      - nats-server
+
+  collision-car-smv:
+    build: ../collision_detector
+    volumes:
+      - ./collision-car-smv.yml:/usr/src/app/config.yaml:ro
+    depends_on:
+      - nats-server
+
+  vehicle-sim:
+    build:
+      context: ../vehicle-sim
+      dockerfile: ./VehicleSim/Dockerfile
+    ports:
+      - "8888:80"
+    depends_on:
+      - nats-server
+    environment:
+      - NATS_URL=nats://nats-server:4222
+      - NATS_USER=vehicle
+      - NATS_PASS=EZhqywXroaabVB2lNHOzMv
+
+  ws-bridge:
+    build: ../ws-bridge
+    command: nats-server:4222
+    depends_on:
+      - nats-server
+
+  dashboard:
+    build: ../dashboard
+    volumes:
+      - dashboard:/volume:rw
+
+  http-proxy:
+    image: nginx:1.13
+    entrypoint: /bin/bash -c
+      "envsubst < /usr/src/conf.template > /etc/nginx/conf.d/default.conf &&
+      nginx -g 'daemon off;'"
+    volumes:
+      - ../http-proxy/nginx.conf:/usr/src/conf.template:ro
+      - ./dev-cert.pem:/usr/src/cert.pem:ro
+      - ./dev-key.pem:/usr/src/key.pem:ro
+      - ../web-console:/usr/src/www/console:ro
+      - ../web-warnings:/usr/src/www/warnings:ro
+      - ../demo-map:/usr/src/www/map:ro
+      - ../bus-warnings-client:/usr/src/www/bus:ro
+      - dashboard:/usr/src/www/dashboard:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - ws-bridge
+    environment:
+      - DOLLAR=$$ # Used to escape dollar sign in template
+      - WS_PATH=/nats
+      - WS_SERVER=ws-bridge:4223
+      - SSL_CERT=/usr/src/cert.pem
+      - SSL_KEY=/usr/src/key.pem
+
+volumes:
+  mqtt-broker:
+    driver: local
+  dashboard:
+    driver: local

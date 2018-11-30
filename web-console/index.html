@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web-console</title>
+  </head>
+  <body>
+    <center>
+      <code>
+        Status: <b><span id="status">connecting</span></b><hr>
+        Open the browser console (F12)<br>
+        Commands are available using <b>"nats."</b>
+      </code>
+    </center>
+    <script src="https://cdn.rawgit.com/isobit/websocket-nats/master/dist/websocket-nats.min.js"></script>
+    <script>
+      var setStatus = function(status, color) {
+        document.getElementById('status').innerHTML = status;
+        document.getElementById('status').style.cssText = 'color:' + color;
+      };
+      var nats = NATS.connect({
+        url: 'wss://' + window.location.host + '/nats',
+        user: 'monitor',
+        pass: 'monitor',
+        maxReconnectAttempts: -1
+      });
+      nats.on('connect', function() {
+        setStatus('connected', 'green');
+      });
+      nats.on('reconnect', function() {
+        setStatus('reconnected', 'green');
+      });
+      nats.on('disconnect', function() {
+        setStatus('disconnected', 'red');
+      });
+      nats.subscribe('vehicle.>', function(msg, reply, topic) {
+        console.log(topic, msg);
+      });
+    </script>
+  </body>
+</html>

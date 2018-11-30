@@ -1,0 +1,23 @@
+﻿name: fh1
+description: A bus catches up to a bike outside at frihamnen
+
+vehicles:
+  bike-fh1-demo:
+    type: bicycle
+    route:
+      - time: 0
+        latitude: 57.715774
+        longitude: 11.959676
+      - time: 15
+        latitude: 57.716934
+        longitude: 11.960407
+
+  bus-fh1-demo:
+    type: bus
+    route:
+      - time: 0
+        latitude: 57.714824
+        longitude: 11.959106
+      - time: 15
+        latitude: 57.717551
+        longitude: 11.960816

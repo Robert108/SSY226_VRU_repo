@@ -1,0 +1,23 @@
+﻿name: az1
+description: Demo run on AstaZero proving grounds
+
+vehicles:
+  car-az1-demo:
+    type: car
+    route:
+      - time: 0 # Test track leg north end
+        latitude: 57.780222
+        longitude: 12.773816
+      - time: 20 # Test track leg south end
+        latitude: 57.774433
+        longitude: 12.778427
+
+  person-az1-demo:
+    type: person
+    route:
+      - time: 0 # Test track leg middle
+        latitude: 57.777412
+        longitude: 12.776204
+      - time: 20 # Test track leg middle
+        latitude: 57.777412
+        longitude: 12.776204

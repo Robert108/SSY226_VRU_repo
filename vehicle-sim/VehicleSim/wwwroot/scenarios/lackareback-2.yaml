@@ -1,0 +1,14 @@
+﻿name: lb2
+description: A bus drives along Flojelbergsgatan southwards
+
+vehicles:
+
+  bus-lb2-demo:
+    type: bus
+    route:
+      - time: 0
+        latitude: 57.670572
+        longitude: 12.015859
+      - time: 15
+        latitude: 57.665752
+        longitude: 12.017522

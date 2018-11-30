@@ -1,0 +1,158 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* ---------- web-warnings ---------- */
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+header {
+  height: 3em;
+  padding: 1em 0.5em;
+}
+header img {
+  vertical-align: middle;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.logo {
+  text-decoration: none;
+  font-size: 1.5em;
+  color: #fff;
+}
+.logo img {
+  margin-right: 0.25em;
+}
+
+.icon-button {
+  cursor: pointer;
+  display: inline-block;
+}
+header .icon-button {
+  height: 2em;
+  margin: 0.5em 1em;
+  float: right;
+}
+.icon-button:hover {
+  background-color: #666;
+}
+
+section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#subscribe, #loading, #warning, footer {
+  display: none;
+}
+
+#subscribe label {
+  font-size: 1.25em;
+}
+
+#subscribe input[type="text"],
+#subscribe input[type="submit"] {
+  border: 2px solid #fff;
+  padding: 0.25em 0.5em;
+  font-size: 1.5em;
+}
+
+#subscribe input[type="text"] {
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+  max-width: 10em;
+}
+
+#subscribe input[type="submit"] {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+
+.dowhile-logo {
+  width: 100%;
+  max-width: 8em;
+}
+
+#warning {
+  text-align: center;
+}
+
+#warning img {
+  display: block;
+  margin: 2em auto;
+}
+
+#threat-type {
+  height: 9em;
+}
+
+#direction {
+  height: 6em;
+}
+
+#distance {
+  font-size: 2em;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  padding: 1em;
+}
+
+#status {
+  font-weight: bold;
+}

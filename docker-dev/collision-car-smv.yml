@@ -1,0 +1,9 @@
+nats-connection-string: "nats://backend:Z2mJM8mlK44RWFJ5zw42jK@nats-server:4222"
+nats-enabled: true
+test-nats: false
+collision_detector-enabled: true
+stale-position-time: 10
+deltatime: 10 #Deltatime determines how far into to the future to project positions
+loglevel: "DEBUG"
+vehicle_type_a: "smv"
+vehicle_type_b: "car"

@@ -1,0 +1,8 @@
+asyncio-nats-client==0.7.0
+geos==0.2.1
+haversine==0.4.5
+numpy==1.14.3
+python-dateutil==2.7.3
+pytz==2018.4
+PyYAML==3.12
+Shapely==1.6.4.post1

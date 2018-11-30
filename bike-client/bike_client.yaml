@@ -1,0 +1,21 @@
+nats-connection-string: "nats://USER:PASS@bike.dowhile.se:4222"
+vehicle-id: ID
+vehicle-type: bicycle
+
+display: piface # What display to output information and warnings on. sense-hat, piface or none
+
+piface-pin: 7 # Which PiFace output pin (and LED) to flash on when warnings are received
+sense-hat-rotation: 90 # Direction of HDMI port - 180 degrees (HDMI port pointing downwards = 0)
+stationary-speed: 0.0 # If the GPS indicates we are below this speed, we will ignore threat direction
+
+# Integration settings
+nats-enabled: true
+gps-enabled: true
+warnings-enabled: true
+alternate-gps-lib: false
+gps-data-logging: false
+
+show-startup-message: true
+
+test-sense-hat: false
+test-nats: false

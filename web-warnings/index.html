@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Collision Warnings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="warnings.css">
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="#">
+        <img src="img/ericsson.svg" alt="Ericsson"></a>
+      <span class="icon-button" onclick="toggleFullscreen()">
+        <img src="img/fullscreen.svg" alt="Fullscreen"/></span>
+    </header>
+    <main>
+      <section id="subscribe">
+        <form action="javascript:handleInput()">
+          <label for="input">Enter device or vehicle ID:</label>
+          <br><br>
+          <input id="input" type="text"><input type="submit" value="Use">
+          <br><br>
+          <img class="dowhile-logo" src="img/dowhile.png" alt="doWhile">
+        </form>
+      </section>
+      <section id="warning">
+        <img id="threat-type" src="img/warning.svg" alt="Threat">
+        <img id="direction" src="img/arrow.svg" alt="Direction">
+        <span id="distance"></span>
+      </section>
+    </main>
+    <footer>
+      <span id="status">Disconnected</span> | <span id="id"></span>
+    </footer>
+    <script src="https://cdn.rawgit.com/isobit/websocket-nats/master/dist/websocket-nats.min.js"></script>
+    <script src="warnings.js"></script>
+  </body>
+</html>

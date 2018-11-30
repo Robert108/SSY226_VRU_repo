@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>bus-warnings-client</title>
+  </head>
+  <body>
+    <center>
+      <code>
+        Status: <b><span id="status">connecting</span></b><hr>
+      </code>
+    </center>
+    <div id="warning" style="visibility: hidden">
+      <center>
+        <img src="warning.png" style="z-index: -100"/><br><br><br>
+        <div id="arrow">
+          <img src="arrow.png" />
+        </div>
+
+      </center>
+    </div>
+    <script src="https://cdn.rawgit.com/isobit/websocket-nats/master/dist/websocket-nats.min.js"></script>
+    <script>
+      var setStatus = function(status, color) {
+        document.getElementById('status').innerHTML = status;
+        document.getElementById('status').style.cssText = 'color:' + color;
+      };
+      var regex = new RegExp('\\?([A-Za-z0-9\\-]+)');
+      var vehicle_id = regex.exec(window.location.href)[1];
+      console.log('Monitoring for vehicle: ' + vehicle_id);
+      var nats = NATS.connect({
+        url: 'wss://' + window.location.host + '/nats',
+        user: 'monitor',
+        pass: 'monitor',
+        maxReconnectAttempts: -1
+      });
+      nats.on('connect', function() {
+        setStatus('connected: ' + vehicle_id, 'green');
+      });
+      nats.on('reconnect', function() {
+        setStatus('reconnected', 'green');
+      });
+      nats.on('disconnect', function() {
+        setStatus('disconnected', 'red');
+      });
+      nats.subscribe('vehicle.' + vehicle_id + '.warning', function(msg, reply, topic) {
+        console.log(topic, msg);
+        var parsed = JSON.parse(msg);
+        var direction = Math.round(parsed.threat_direction)
+        console.log(direction);
+        document.getElementById('warning').style.cssText = 'visibility: visible';
+        var timeout;
+        if(timeout) {
+          window.clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {document.getElementById('warning').style.cssText = 'visibility: hidden';}, 10000);
+        document.getElementById('arrow').style.cssText = 'transform: rotateZ(' + direction + 'deg)';
+      });
+    </script>
+  </body>
+</html>

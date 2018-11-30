@@ -1,0 +1,16 @@
+﻿name: az2
+description: Demo run on AstaZero proving grounds
+
+vehicles:
+  car-az3-demo:
+    type: car
+    route:
+      - time: 0 # Fake city west
+        latitude:  57.773615
+        longitude: 12.765961
+      - time: 10 # Near control center
+        latitude: 57.772691
+        longitude: 12.769885
+      - time: 20 # Fake city easy
+        latitude:  57.772322
+        longitude: 12.773171

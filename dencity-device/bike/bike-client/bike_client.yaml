@@ -1,0 +1,22 @@
+nats-connection-string: "nats://vehicle:scpPwBnqES3FwMIjefPyVg@bike.dowhile.se:4222"
+vehicle-id: person-1
+vehicle-type: person
+
+display: piface
+
+piface-pin: 2
+sparkfun-device: /dev/ttyACM0
+sense-hat-rotation: 90 # Direction of HDMI port - 180 degrees (HDMI port pointing downwards = 0)
+stationary-speed: 0.0 # If the GPS indicates we are below this speed, we will ignore threat direction
+
+# Integration settings
+nats-enabled: true
+gps-enabled: true
+warnings-enabled: true
+alternate-gps-lib: false
+gps-data-logging: false
+
+show-startup-message: true
+
+test-sense-hat: false
+test-nats: false

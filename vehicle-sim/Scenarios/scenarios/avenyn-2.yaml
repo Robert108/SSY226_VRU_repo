@@ -1,0 +1,25 @@
+﻿name: av2
+description: One bike moves from Lilla Bommen to Gotaplatsen
+
+vehicles:
+  bike-av2-demo:
+    type: bicycle
+    route:
+      - time: 0 # Lilla Bommen
+        latitude: 57.709925
+        longitude: 11.966499
+      - time: 60 # Brunnsparken
+        latitude: 57.707119
+        longitude: 11.967993
+      - time: 120 # Kungsportsplatsen south
+        latitude: 57.704480
+        longitude: 11.969363
+      - time: 135 # Kungsportsplatsen north
+        latitude: 57.703819
+        longitude: 11.970186
+      - time: 195 # Valand
+        latitude: 57.700646
+        longitude: 11.974732
+      - time: 230 # Gotaplatsen
+        latitude: 57.697446
+        longitude: 11.979372

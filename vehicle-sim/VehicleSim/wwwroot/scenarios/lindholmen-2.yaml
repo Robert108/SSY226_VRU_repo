@@ -1,0 +1,33 @@
+﻿name: ln2
+description: A bike catches up to another bike, both are caught up by a bus
+
+vehicles:
+  bike1:
+    type: bicycle
+    route:
+      - time: 0 # About 40m ahead of bike2
+        latitude: 57.71006
+        longitude: 11.94101
+      - time: 45 # About 20m behind the bus
+        latitude: 57.70870
+        longitude: 11.93856
+
+  bike2:
+    type: bicycle
+    route:
+      - time: 0 # About 150m ahead of the bus
+        latitude: 57.71111
+        longitude: 11.94285
+      - time: 45 # About 20m behind the bus
+        latitude: 57.70870
+        longitude: 11.93856
+
+  bus1:
+    type: bus
+    route:
+      - time: 0 # Northeast end of Lindholmnallen
+        latitude: 57.71317
+        longitude: 11.94645
+      - time: 45 # Southwest end of Lindholmsallen
+        latitude: 57.70801
+        longitude: 11.93744

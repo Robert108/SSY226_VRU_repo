@@ -1,0 +1,39 @@
+.Header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  border-bottom: 4px solid #002661;
+  background: white;
+}
+
+.Header_Logo_Container {
+  display: flex;
+  flex-direction: row;
+}
+
+.Header_Logo_Container-Title,
+.Header_Logo_Container-Logo,
+.Header_Side_Title {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.Header_Logo_Container-Title,
+.Header_Side_Title {
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 20px;
+  font-family: 'Roboto';
+  font-weight: 900;
+  color: #002661;
+  font-size: 20px;
+}
+
+.Header_Logo-img {
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 10px;
+}

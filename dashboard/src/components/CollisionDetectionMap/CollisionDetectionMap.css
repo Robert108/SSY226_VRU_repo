@@ -1,0 +1,19 @@
+.Legend__Container {
+  border: 2px solid #002661;
+  background: white;
+  display: flex;
+  flex-flow: column;
+  width: 110px;
+}
+
+.Legend__Container-Row {
+  padding: 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Legend__Container-Row span {
+  position: relative;
+  top: 4px;
+}

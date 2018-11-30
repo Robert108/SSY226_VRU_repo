@@ -1,0 +1,21 @@
+.carousel.slide,
+.carousel-inner,
+.item {
+  height: 100%;
+}
+
+.carousel-indicators .active {
+  background: #002661;
+}
+
+.carousel-indicators li {
+  border-color: #002661;
+}
+
+.glyphicon-chevron-right:before {
+  color: #002661;
+}
+
+.glyphicon-chevron-left:before {
+  color: #002661;
+}

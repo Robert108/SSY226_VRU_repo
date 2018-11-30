@@ -1,0 +1,12 @@
+{
+  "VOLVOOCEANRACE1": {
+    "propulsion": "unknown",
+    "reg_nr": "VOR1",
+    "type": "bus"
+  },
+  "VOLVOOCEANRACE2": {
+    "propulsion": "unknown",
+    "reg_nr": "VOR2",
+    "type": "bus"
+  }
+}

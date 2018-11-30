@@ -1,0 +1,19 @@
+.Modal {
+  position: fixed;
+  z-index: 500;
+  background-color: white;
+  width: 88%;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px black;
+  padding: 16px;
+  margin: 0 auto;
+  top: calc(50vh - 40vh);
+  height: 80vh;
+  left: calc(50% - 44%);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.Modal .leaflet-container {
+  height: 100%;
+}

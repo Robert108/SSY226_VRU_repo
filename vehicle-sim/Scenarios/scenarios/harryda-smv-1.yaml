@@ -1,0 +1,59 @@
+﻿name: car-smv-harryda
+description: Car is quickly catching up a slow moving vehicle in a bend
+
+vehicles:
+  car-harryda-demo:
+    type: car
+    route:
+      - time: 0
+        latitude: 57.621289
+        longitude: 12.426696
+      - time: 3
+        latitude: 57.621169
+        longitude: 12.429571
+      - time: 9
+        latitude: 57.620818
+        longitude: 12.43176
+      - time: 12
+        latitude: 57.62014
+        longitude: 12.43338
+      - time: 15
+        latitude: 57.619382
+        longitude: 12.434335
+      - time: 18
+        latitude: 57.618405
+        longitude: 12.4347
+      - time: 21
+        latitude: 57.617695
+        longitude: 12.434673
+      - time: 24
+        latitude: 57.616871
+        longitude: 12.434646
+      - time: 27
+        latitude: 57.615946
+        longitude: 12.434614
+
+  smv-harryda-demo:
+    type: smv
+    route:
+      - time: 0
+        latitude: 57.620818
+        longitude: 12.43176
+      - time: 6
+        latitude: 57.62014
+        longitude: 12.43338
+      - time: 12
+        latitude: 57.619382
+        longitude: 12.434335
+      - time: 18
+        latitude: 57.618405
+        longitude: 12.4347
+      - time: 24
+        latitude: 57.617695
+        longitude: 12.434673
+      - time: 30
+        latitude: 57.616871
+        longitude: 12.434646
+      - time: 36
+        latitude: 57.615946
+        longitude: 12.434614

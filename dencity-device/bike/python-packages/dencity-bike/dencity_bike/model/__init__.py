@@ -1,0 +1,1 @@
+"""Model classes for communication between dencity-bike nodes"""

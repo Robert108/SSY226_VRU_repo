@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  vehiclesim:
+    image: ${DOCKER_REGISTRY}vehiclesim
+    build:
+      context: .
+      dockerfile: VehicleSim/Dockerfile
+    env_file: ./secrets.env
+    environment:
+      NATS_URL: nats://bike.dowhile.se:4222

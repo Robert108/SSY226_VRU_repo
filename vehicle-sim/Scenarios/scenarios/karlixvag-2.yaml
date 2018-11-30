@@ -1,0 +1,31 @@
+﻿name: karl2
+description: A car drives south on Karl IX:s väg
+
+vehicles:
+  demo-car-karl2:
+    type: car
+    route:
+      - time: 0
+        latitude:  57.698147
+        longitude: 11.897155
+      - time: 9
+        latitude:  57.697519
+        longitude: 11.898367
+      - time: 17
+        latitude:  57.697100
+        longitude: 11.899621
+      - time: 21
+        latitude:  57.696795
+        longitude: 11.900195
+      - time: 24
+        latitude:  57.696559
+        longitude: 11.900460
+      - time: 27
+        latitude:  57.696319
+        longitude: 11.900649
+      - time: 35
+        latitude:  57.695517
+        longitude: 11.901043
+      - time: 48
+        latitude:  57.694334
+        longitude: 11.901996

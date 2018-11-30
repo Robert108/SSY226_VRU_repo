@@ -1,0 +1,8 @@
+{
+  "plugins": ["jsx-a11y"],
+  "extends": ["eslint:recommended", "react-app", "plugin:jsx-a11y/recommended"],
+  "rules": {
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "no-console": 0
+  }
+}

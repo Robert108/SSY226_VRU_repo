@@ -1,0 +1,34 @@
+version: "2.3"
+
+services:
+  certbot:
+    image: certbot/certbot:v0.25.0
+    command: >
+      certonly
+      --cert-name cert
+      --email webmaster@dowhile.se
+      --noninteractive --agree-tos
+      --standalone --preferred-challenges http
+      -d bike.dowhile.se
+      -d dencity.dowhile.se
+      -d cbike.expericom.ericsson.net
+    volumes:
+      - certbot-config:/etc/letsencrypt:rw
+      - certbot-logs:/var/log/letsencrypt:rw
+      - certbot-workdir:/var/lib/letsencrypt:rw
+    networks:
+     - certbot
+    ports:
+      - "80:80"
+
+volumes:
+  certbot-config:
+    driver: local
+  certbot-logs:
+    driver: local
+  certbot-workdir:
+    driver: local
+
+networks:
+  certbot:
+    driver: bridge

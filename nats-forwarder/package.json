@@ -1,0 +1,9 @@
+{
+  "name": "nats-forwarder",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "mqtt": "^2.18.0",
+    "nats": "^0.8.10"
+  }
+}
