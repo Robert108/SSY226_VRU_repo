@@ -28,9 +28,11 @@ function [xhat, lastGyrData] = OrientFilter(Ydata, xhat, lastGyrData, dT)
   R_mag = diag([0.258 0.2442 0.2155]);
   
   
-  g0 =   [0.1 0.1 9.9]';  % Taken from a measurement when the phone is flat 
+  g0 =   [0.02, 0.02, 9.7]';  % Taken from a measurement when the phone is flat 
   % Todo: Set g0 to some standard if calibration is nonexistent. 
   m0 = [0 sqrt(0^2 + 5^2) -53]'; 
+  
+  % = [-66.9876708984375,-54.0655708312988,24.4852104187012]';
   % Todo Calc m0 from the initial GPS position
   
   Lm = norm(m0);  % Set magnetic field vector length
