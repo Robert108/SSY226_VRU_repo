@@ -7,9 +7,12 @@ lastGyrData    = zeros(1,3);
 nx             = 4; % Assuming that you use q as state variable in orient filter
 y = 0;
 y_gps = 0;
-y_acc = [];
+y_acc = zeros([1, 3]);
+xgps = zeros([2, 1]);
 gps_data = [];
- 
+alpha = 0.9;
+RC = 5;
+
   xv = 0; 
   xp = 0;
   yv = 0; 
@@ -22,15 +25,15 @@ gps_data = [];
 % Init State vector 
 x = zeros([4 2]);
 
-P = [100 0  0  0; 
-     0  100 0  0; 
-     0  0  20  0; 
-     0  0  0  20];                  % Prior covariance 
+P = [2 0  0  0; 
+     0  2 0  0; 
+     0  0  1  0; 
+     0  0  0  1];                  % Prior covariance 
 
-Q = [200 0 0 0; 
-     0 200 0 0; 
-     0 0  50 0; 
-     0 0  0 50];                    % Process noise
+Q = [0.1 0 0 0; 
+     0 0.1 0 0; 
+     0 0  0.1 0; 
+     0 0  0 0.1];                    % Process noise
 
 
   % Saved quaterion filter states.
@@ -54,6 +57,8 @@ for i = 2:length(s.ALLsens)
         [GPS_East, GPS_North, zUp] = ecef2enu(ecef(1), ecef(2), ecef(3), ...
                                               ipos_lat, ipos_long, ipos_alt, earth); % Origin at the first GPS position
          GPS_North = GPS_North + 8.644464733671408e+03;
+         
+         xgps = [xgps x(1:2,end)];
     end
     
     
@@ -71,40 +76,31 @@ for i = 2:length(s.ALLsens)
         end
     
         [qhat, lastGyrData]  = OrientFilter(Ydata, qhat, lastGyrData, dt); % Update pose
-        rotm = quat2rotm(qhat.x'); % Might have todo some conversion to get absolute east-north direction. 
-    
-       if Ydata(1) == 1  % rotate acceleration measurment
-%            y_acc = [y_acc; Ydata(3:5)];
+        rotm = quat2rotm(qhat.x'); % Rotation matrix that rotates sensors to east-north-up direction. 
+      
+        if Ydata(1) == 1  % rotate acceleration measurment
+%          y_acc = [y_acc; Ydata(3:5)];
            g_effect = rotm(:,:)*[0.02, 0.02, 9.7]';
+           
            xyz_acc(1:3) = rotm(:,:)*Ydata(3:5)';   % Remove effect of pose on acc values
            
-           y_acc = [y_acc; xyz_acc(1:3)];
+           alpha = dtAcc / (RC + dtAcc);
+           y = y_acc(end,:) + alpha * (xyz_acc(1:3) - y_acc(end,:));
+          
+           y_acc = [y_acc; y];
+           
        elseif Ydata(1) == 3
            xyz_mag(1:3) = rotm(:,:)*Ydata(3:5)';
        end
     end
     
-    if (Ydata(1) == 1 || Ydata(1) == 4) && i >= 1000 % Acc or GPS; Run Kalman loop
+    if (Ydata(1) == 1 || Ydata(1) == 4) && i >= 2818 % Acc or GPS; Run Kalman loop
     
         j = j+1;
             tk     = Ydata(2); 
             dtk    = tk - t0k;
             t0k    = tk;
             
-    if Ydata(1) == 1
-        H = [0 0 0 0; 0 0 0 0];
-        R  = [0.5 0;
-              0 0.5];
-        y = xyz_acc(1:2)';
-    else 
-        H = [1 0 0 0; 0 1 0 0];
-        R  = [10 0;
-              0 10];
-        gps_data = [gps_data; [GPS_East GPS_North]]; 
-       
-        y = [GPS_East GPS_North]'; 
-    end
-        
     % Calculate prediction
     A = [1 0 dtk 0;
          0 1 0   dtk;
@@ -112,10 +108,27 @@ for i = 2:length(s.ALLsens)
          0 0 0   1];
  
     hx = A*x(:,j);   
-    P = A*P*A'+ Q;
-    
+    P = A*P*A'+ Q;       
+            
+    if Ydata(1) == 1
+         H = [1/dtk^2 0 1/dtk 0; 0 1/dtk^2 0 1/dtk];
+%         H = [0 0 0 0; 0 0 0 0];
+        R  = [1 0;
+              0 1];
+        y = xyz_acc(1:2)';
+        vk = y-H*(hx-x(:,j));
+    else 
+        H = [1 0 0 0; 0 1 0 0];
+        R  = [3 0;
+              0 3];
+        gps_data = [gps_data; [GPS_East GPS_North]]; 
+       
+        y = [GPS_East GPS_North]'; 
+        vk = y-H*hx;
+        
+    end
+
     % Update
-    vk = y-H*hx;
     S = H*P*H' + R;  % Calc the innovation covariance
     K = P*H'*inv(S); % Calc the Kalman gain
     
@@ -127,9 +140,10 @@ for i = 2:length(s.ALLsens)
 end
 
    figure()
-   plot(x(1,:), x(2,:), '.')     
+   plot(x(2,:), x(1,:), '.') 
    hold on
-   plot(gps_data(:,1), gps_data(:,2), 'ro', 'MarkerSize', 3)
+   plot(xgps(2,:), xgps(1,:), 'rx', 'MarkerSize', 3)
+   plot(gps_data(:,2), gps_data(:,1), 'ro', 'MarkerSize', 3)
    axis equal
    
 %    % Plot GPS position      
