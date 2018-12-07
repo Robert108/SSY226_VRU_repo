@@ -30,10 +30,10 @@ P = [2 0  0  0;
      0  0  1  0; 
      0  0  0  1];                  % Prior covariance 
 
-Q = [0.1 0 0 0; 
-     0 0.1 0 0; 
-     0 0  0.1 0; 
-     0 0  0 0.1];                    % Process noise
+Q = [0.5 0 0 0; 
+     0 0.5 0 0; 
+     0 0  0.5 0; 
+     0 0  0 0.5];                    % Process noise
 
 
   % Saved quaterion filter states.
@@ -84,6 +84,7 @@ for i = 2:length(s.ALLsens)
            
            xyz_acc(1:3) = rotm(:,:)*Ydata(3:5)';   % Remove effect of pose on acc values
            
+           % LP filter
            alpha = dtAcc / (RC + dtAcc);
            y = y_acc(end,:) + alpha * (xyz_acc(1:3) - y_acc(end,:));
           
@@ -94,7 +95,7 @@ for i = 2:length(s.ALLsens)
        end
     end
     
-    if (Ydata(1) == 1 || Ydata(1) == 4) && i >= 2818 % Acc or GPS; Run Kalman loop
+    if (Ydata(1) == 1 || Ydata(1) == 4) && i >= 1818 % Acc or GPS; Run Kalman loop
     
         j = j+1;
             tk     = Ydata(2); 
