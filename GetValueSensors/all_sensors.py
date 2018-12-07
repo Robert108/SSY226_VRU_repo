@@ -55,7 +55,7 @@ while True:
 	run = start_stop(run)
 	if run :
 		sense.set_pixel(0,0,(0,255,0))
-		with open('data_log_' + str(datetime.now().date()) + '_' +  str(file_index) + '.csv', 'wb') as f:
+		with open('data_log_' + str(datetime.now().date()) + '_' +  str(datetime.now().time())  + '.csv', 'wb') as f:
 			data_writer = writer(f)
 			while True:
 				currentTime = datetime.now().time()
@@ -70,7 +70,11 @@ while True:
 					fh = open("log.txt", "a")
 					fh.write(str(sys.exc_info()) + "\n")
 					continue
-				return_data = parseGPS(str_raw)
+				try:
+					return_data = parseGPS(str_raw)
+				except:
+					sense.set_pixel(2,2,(255,0,0))
+					continue
 				if return_data[0]:
 					temp = temp - 1
 					data = return_data[1]
