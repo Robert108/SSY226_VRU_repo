@@ -1,6 +1,12 @@
-def OrientFilter(Ydata, xhat, lastGyrData, dT)
+import numpy as np
+from tu_qw import *
+from Somega import *
+from mu_normalizeQ import *
+from mu_g import *
+from mu_m import *
 
-# import numpy as np
+def OrientFilter(Ydata, xhat, Phat,  lastGyrData, dT):
+
 
 # FILTERTEMPLATE  Filter template
 #
@@ -26,70 +32,70 @@ def OrientFilter(Ydata, xhat, lastGyrData, dT)
   ## Filter settings
   
   # Add your filter settings here.
-  R_acc = np.diag([0.0002, 0.0001, 0.0002])
-  R_gyr = np.diag([0.000001008, 0.000001109, 0.000000666])
-  R_mag = np.diag([0.258, 0.2442, 0.2155])
+	R_acc = np.diag([0.0002, 0.0001, 0.0002])
+	R_gyr = np.diag([0.000001008, 0.000001109, 0.000000666])
+	R_mag = np.diag([0.258, 0.2442, 0.2155])
   
   
-  g0 = np.transpose([0.02, 0.02, 9.7])
+	#g0 = np.transpose([0.02, 0.02, 9.7])
+	g0 = np.array([[0.02],[0.025],[9.6]])
     # Taken from a measurement when the phone is flat 
   # Todo: Set g0 to some standard if calibration is nonexistent. 
-  m0 = np.transpose([0, sqrt(0^2 + 5^2), -53]) 
+	#m0 = np.transpose([0, np.sqrt(0^2 + 5^2), -53]) 
+	m0 = np.array([[0],[5],[-53]])
   
   # = [-66.9876708984375,-54.0655708312988,24.4852104187012]'
   # Todo Calc m0 from the initial GPS position
   
-  Lm = np.linalg.norm(m0)  # Set magnetic field vector length
-  alpha_m = 0.05 # Set alpha for the magnetic AR filter
-  magOut = False
+	Lm = np.linalg.norm(m0)  # Set magnetic field vector length
+	alpha_m = 0.05 # Set alpha for the magnetic AR filter
+	magOut = False
   
-  T = dT # Set delta time 
-  lenx = len(xhat[1])
-  lenP = len(xhat[2])
-  for i in range(lenx):
-  	x = xhat[1]['x'][i]
-  for j in range(lenP):
-  	P = xhat[2]['P'][j]
+	T = dT # Set delta time 
+	#lenx = len(xhat[1])
+	#lenP = len(xhat[2])
+	#for i in range(lenx):
+	#	x = xhat[1]['x'][i]
+	#for j in range(lenP):
+ 	#	P = xhat[2]['P'][j]
+	x = xhat
+	P = Phat
         
   # Acceleromter
-  if Ydata(1) == 1 && 9 < np.linalg.norm(Ydata(3:5)) && np.linalg.norm(Ydata(3:5)) < 11: # Acc measurements are available 
-    acc    = np.transpose(Ydata(3:5))
-    x, P = mu_g(x, P, acc, R_acc, g0)        
-    x, P = mu_normalizeQ(x, P)
+	if (Ydata[0] == 1) and (9 < np.linalg.norm(Ydata[2:5])) and (np.linalg.norm(Ydata[2:5]) < 11): 	
+		acc    = np.transpose(np.array([Ydata[2:5]]))
+		x, P = mu_g(x, P, acc, R_acc, g0)
+		x, P = mu_normalizeQ(x, P)
   
   # Gyroscope
-  if Ydata(1) == 2:  # Gyr measurements are available 
-    gyr    = np.transpose(Ydata(3:5))
-    x, P = tu_qw(x, P, gyr, T, R_gyr)        
-    x, P = mu_normalizeQ(x, P)
-    lastGyrData = gyr     
-  else:
-    x, P = tu_qw(x, P, lastGyrData, T, R_gyr)
-    x, P = mu_normalizeQ(x, P)
-    gyr = None      
+	if Ydata[0] == 2:  # Gyr measurements are available 
+		gyr    = np.transpose(np.array([Ydata[2:5]]))
+		x, P = tu_qw(x, P, gyr, T, R_gyr)        
+		x, P = mu_normalizeQ(x, P)
+		lastGyrData = gyr     
+	else: 
+		x, P = tu_qw(x, P, lastGyrData, T, R_gyr)
+		x, P = mu_normalizeQ(x, P)
+		gyr = None      
        
   # Magnetometer
-  if Ydata(1) == 3:  # Mag measurements are available 
-    mag  = np.transpose(Ydata(3:5))
-    Lm = (1-alpha_m)*Lm + alpha_m*norm(mag) # AR(1) filter
-    if Lm*0.98 < Lm && Lm < Lm*1.02:
-        magOut = False
-        Lm = Lm
-    else: 
-        magOut = True 
-  else:
-      magOut = False
-      mag = None
-      
-  if np.nonzero(isnan(mag)) and not magOut:  # Mag measurements are available.
-    x, P = mu_normalizeQ(x, P)
-    x, P = mu_m(x, P, mag, m0, R_mag)
-    x, P = mu_normalizeQ(x, P)
+	if Ydata[0] == 3:  # Mag measurements are available 
+		mag  = np.transpose(np.array([Ydata[2:5]]))
+		#Lm = (1-alpha_m)*Lm + alpha_m*norm(mag) # AR(1) filter
+		#if (Lm*0.98 < Lm) && Lm < Lm*1.02:
+		#	magOut = False
+		#	Lm = Lm
+		#else: 
+		x, P = mu_normalizeQ(x, P)
+		x, P = mu_m(x, P, mag, m0, R_mag)
+		x, P = mu_normalizeQ(x, P)
+
+
 
   # Save estimates
-  for i in range(lenx):
-  		xhat[1]['x'][i] = x
-  for j in range(lenP):
-  		xhat[2]['P'][j] = P
+	#for i in range(lenx):
+	#	xhat[1]['x'][i] = x
+	#for j in range(lenP):
+	#	xhat[2]['P'][j] = P
 
-return xhat, lastGyrData
+	return x, P,  lastGyrData
