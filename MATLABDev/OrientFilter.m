@@ -58,9 +58,9 @@ function [xhat, lastGyrData] = OrientFilter(Ydata, xhat, lastGyrData, dT)
         [x, P] = mu_normalizeQ(x, P);
         lastGyrData = gyr;     
       else
-        [x, P] = tu_qw(x, P, lastGyrData, T, R_gyr);
-        [x, P] = mu_normalizeQ(x, P);
-        gyr = NaN;
+%         [x, P] = tu_qw(x, P, lastGyrData, T, R_gyr);
+%         [x, P] = mu_normalizeQ(x, P);
+%         gyr = NaN;
       end      
            
       % Magnetometer
