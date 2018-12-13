@@ -1,6 +1,7 @@
 % test Csv file in matlab
+clear all
 
-filename  = 'walk_kuggen.csv';
+filename  = 'data_no_gps_3.csv';
 fid = fopen(filename,'rt');
 s.ALLsens = [];
 GPS = [];
