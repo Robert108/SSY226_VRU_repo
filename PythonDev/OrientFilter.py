@@ -32,8 +32,8 @@ def OrientFilter(Ydata, xhat, Phat,  lastGyrData, dT):
   ## Filter settings
   
   # Add your filter settings here.
-	R_acc = np.diag([0.0002, 0.0001, 0.0002])
-	R_gyr = np.diag([0.000001008, 0.000001109, 0.000000666])
+	R_acc = np.diag([0.00044, 0.00036, 0.00028])
+	R_gyr = np.diag([0.000053, 0.000011, 0.000015])
 	R_mag = np.diag([0.258, 0.2442, 0.2155])
   
   
@@ -52,12 +52,6 @@ def OrientFilter(Ydata, xhat, Phat,  lastGyrData, dT):
 	magOut = False
   
 	T = dT # Set delta time 
-	#lenx = len(xhat[1])
-	#lenP = len(xhat[2])
-	#for i in range(lenx):
-	#	x = xhat[1]['x'][i]
-	#for j in range(lenP):
- 	#	P = xhat[2]['P'][j]
 	x = xhat
 	P = Phat
         
@@ -81,21 +75,9 @@ def OrientFilter(Ydata, xhat, Phat,  lastGyrData, dT):
   # Magnetometer
 	if Ydata[0] == 3:  # Mag measurements are available 
 		mag  = np.transpose(np.array([Ydata[2:5]]))
-		#Lm = (1-alpha_m)*Lm + alpha_m*norm(mag) # AR(1) filter
-		#if (Lm*0.98 < Lm) && Lm < Lm*1.02:
-		#	magOut = False
-		#	Lm = Lm
-		#else: 
 		x, P = mu_normalizeQ(x, P)
 		x, P = mu_m(x, P, mag, m0, R_mag)
 		x, P = mu_normalizeQ(x, P)
 
-
-
-  # Save estimates
-	#for i in range(lenx):
-	#	xhat[1]['x'][i] = x
-	#for j in range(lenP):
-	#	xhat[2]['P'][j] = P
 
 	return x, P,  lastGyrData

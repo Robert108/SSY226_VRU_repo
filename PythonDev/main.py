@@ -3,6 +3,7 @@ from sense_hat import SenseHat
 from OrientFilter import *
 from quat2rotm import *
 from datetime import datetime
+from quat2euler import * 
 
 #import matplotlib.pyplot as plt
 
@@ -40,7 +41,13 @@ def get_sense_data(use_mag = 0):
 	return sense_data
 
 
-
+def get_time(old_time):
+	now = datetime.now()
+	new_time = seconds_since_midnight = (now - now.replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds()
+	dt = new_time - old_time
+	old_time = new_time
+	
+	return old_time, dt
 
 Ydata = np.array([2,0.5,2,2,9.82])
 xhat = np.transpose(np.array([[1,0,0,0]]))
@@ -59,37 +66,41 @@ sense.clear()
 temp = 0
 time = 0
 dt = 0
+old_acc = np.transpose(np.array([[0,0,9.82]]))
+alpha = 1
+RC = 0.1
 while True:
 
 
 	return_value = get_sense_data()
-	now = datetime.now()
-	new_time = seconds_since_midnight = (now - now.replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds()
-	dt = new_time - time
-	time = new_time
-	Ydata_acc = np.array([1,0.5,return_value[3],return_value[4],return_value[5]])
+	time, dt = get_time(time)
+
+	#alpha  = dt / (RC + dt)	
+	acc = np.transpose((np.array([[return_value[3],return_value[4],return_value[5]]])))
+	yacc = old_acc + alpha * (acc - old_acc)
+	#print(alpha)
+
+	Ydata_acc = np.array([1,0.5,yacc[0,0], yacc[1,0], yacc[2,0]])
 	Ydata_gyr = np.array([2,0.5,return_value[0],return_value[1],return_value[2]])
 	#Ydata_mag = np.array([3,0.5,return_value[6],return_value[7],return_value[8]])
 
 	xhat, Phat, lastGyrData  = OrientFilter(Ydata_acc, xhat, Phat, lastGyrData, dt)
 	xhat, Phat, lastGyrData  = OrientFilter(Ydata_gyr, xhat, Phat, lastGyrData, dt)
 	#xhat, Phat, lastGyrData  = OrientFilter(Ydata_mag, xhat, Phat, lastGyrData, dt)
-	acc = np.transpose((np.array([[return_value[3],return_value[4],return_value[5]]])))
 
-	if temp % 10 == 0:
-		#print(return_value)
-		print(np.matmul(quat2rotm(xhat), acc))
-		print(dt)
-		#print(acc)
-		#print(return_value)
-
+	old_Acc = yacc
+	
 
 	return_value = get_sense_data(use_mag = 1)
-	now = datetime.now()
-	new_time = seconds_since_midnight = (now - now.replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds()
-	dt = new_time - time
-	time = new_time
-	Ydata_acc = np.array([1,0.5,return_value[3],return_value[4],return_value[5]])
+	time, dt = get_time(time)
+
+	#alpha  = dt / (RC + dt)
+	#print(alpha)	
+
+	acc = np.transpose((np.array([[return_value[3],return_value[4],return_value[5]]])))
+	yacc = old_acc + alpha * (acc - old_acc)
+	
+	Ydata_acc = np.array([1,0.5,yacc[0,0], yacc[1,0], yacc[2,0]])
 	Ydata_gyr = np.array([2,0.5,return_value[0],return_value[1],return_value[2]])
 	Ydata_mag = np.array([3,0.5,return_value[6],return_value[7],return_value[8]])
 
@@ -97,6 +108,14 @@ while True:
 	xhat, Phat, lastGyrData  = OrientFilter(Ydata_gyr, xhat, Phat, lastGyrData, dt)
 	xhat, Phat, lastGyrData  = OrientFilter(Ydata_mag, xhat, Phat, lastGyrData, dt)
 
+	old_Acc = yacc
+
+	
+
+	if temp % 1 == 0:
+		#print(np.matmul(quat2rotm(xhat), acc))
+		print(quat2euler(xhat))
+		print(dt)
 	temp = temp +1
 	
 
