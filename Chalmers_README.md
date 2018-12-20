@@ -1,4 +1,5 @@
 # Information
+An error analysis have been created in Error_Analysis.md
 
 ## How to set up the Raspberry pi to Collect measurements
 
@@ -32,6 +33,10 @@ For the filter to run a number of files needs to be in the run directory:
 * tu_qw.py
 
 The orientfilter is the main file that runs one iteration of the fileter. To see how it can be used, plase look at the example_main.py.
+
+## The main Kalman filter.
+Since lack of time, the main Kalmanfilter have not yeat compleatly been converted into python code. But it have been implemented in Matlab. All the Matlab code can be found in the MATLABDev folder.   
+For information on how to run the Kalmanfilter and how it should be run, please se the MAtlab code.
 
 ## Server
 A server was set-up at a dedicated address by Ericsson. 
