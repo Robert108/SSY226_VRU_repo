@@ -1,4 +1,4 @@
-## A python script for collecting data from the different sensors connected to the RaspberryPi
+## A python script for collecting data from the different sensors connected to the RaspberryPi and save it to a .csv file
 
 # Import the necessary libraries
 import serial
@@ -11,6 +11,7 @@ import sys
 # Assign port to which the GPS is connected
 port = "/dev/serial0"
 temp = 1000000
+# set up the sense hat
 sense = SenseHat()
 sense.clear()
 
@@ -49,12 +50,10 @@ def start_stop(run):
 	for event in sense.stick.get_events():
 		if event.action == "pressed":
 			return not run
-
 	return run
 
 serialPort = serial.Serial(port, baudrate = 9600, timeout = 0.5) # Opening the serial port
 run = False
-file_index = 1
 sense.set_pixel(0,0,(255,0,0)) # Assigning the LED light at the corner to be RED
 while True:
 	run = start_stop(run)
@@ -93,8 +92,7 @@ while True:
 				run = start_stop(run)
 				if not run:
 					break
-			f.close()
-			file_index = file_index + 1
+			f.close() # exit the file
 			sense.set_pixel(0,0,(255,0,0)) # Setting it back to RED
 
 
