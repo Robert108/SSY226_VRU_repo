@@ -1,3 +1,5 @@
+# function that normalizes the state and covariance matrix
+
 import numpy as np
 
 def mu_normalizeQ(x, P):

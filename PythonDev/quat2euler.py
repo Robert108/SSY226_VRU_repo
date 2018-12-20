@@ -1,3 +1,5 @@
+# function that converts the quaterions in the state to euler angles
+
 import numpy as np
 
 def quat2euler(quaternion):

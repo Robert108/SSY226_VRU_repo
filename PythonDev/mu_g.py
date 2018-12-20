@@ -1,3 +1,5 @@
+# function for doing the acceleration update in the filter
+
 import numpy as np
 
 def  mu_g(x, P, yacc, Ra, g0):

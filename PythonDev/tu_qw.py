@@ -1,3 +1,5 @@
+# Function that does the prediction step using the gyroscope values (omega).
+
 import numpy as np
 from Somega import *
 from Sq import *

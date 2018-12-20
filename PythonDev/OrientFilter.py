@@ -1,3 +1,7 @@
+# The main file for the filter.
+# this function runs one update of the filter. 
+# For a compleate example of how this fucntion should be used, place look in the example_main.py file.
+
 import numpy as np
 from tu_qw import *
 from Somega import *
@@ -6,28 +10,6 @@ from mu_g import *
 from mu_m import *
 
 def OrientFilter(Ydata, xhat, Phat,  lastGyrData, dT):
-
-
-# FILTERTEMPLATE  Filter template
-#
-# This is a template function for how to collect and filter data
-# sent from a smartphone live.  Calibration data for the
-# accelerometer, gyroscope and magnetometer assumed available as
-# structs with fields m (mean) and R (variance).
-#
-# The function returns xhat as an array of structs comprising t
-# (timestamp), x (state), and P (state covariance) for each
-# timestamp, and meas an array of structs comprising t (timestamp),
-# acc (accelerometer measurements), gyr (gyroscope measurements),
-# mag (magnetometer measurements), and orint (orientation quaternions
-# from the phone).  Measurements not availabe are marked with NaNs.
-#
-# As you implement your own orientation estimate, it will be
-# visualized in a simple illustration.  If the orientation estimate
-# is checked in the Sensor Fusion app, it will be displayed in a
-# separate view.
-#
-# Note that it is not necessary to provide inputs (calAcc, calGyr, calMag).
 
   ## Filter settings
   

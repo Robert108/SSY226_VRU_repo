@@ -1,3 +1,5 @@
+# takes the quaterion and calcualte the derivative of the quaternions
+
 import numpy as np
 
 def Sq(q):

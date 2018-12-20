@@ -1,3 +1,5 @@
+# function for doing the magnetometer updatea of the filter
+
 import numpy as np
 from mu_g import * # to get Qq(x) and dQdq(x)
 
