@@ -131,7 +131,8 @@ while True:
 
 	
 	# print for debugging
-	if temp % 100 == 0:
+	# prints the euler angles
+	if temp % 5 == 0:
 		print(quat2euler(xhat))
 		print(dt)
 	temp = temp +1
