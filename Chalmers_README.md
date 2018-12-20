@@ -33,3 +33,12 @@ For the filter to run a number of files needs to be in the run directory:
 
 The orientfilter is the main file that runs one iteration of the fileter. To see how it can be used, plase look at the example_main.py.
 
+## Server
+A server was set-up at a dedicated address by Ericsson. 
+
+Simply connect to the server by typing:
+* ssh student@40.113.6.77 
+* The password is: elcity999
+Note that the address and the password might be different for other users.
+
+Just follow the instructions provided at the Readme.md file to run the connected bike demo. There were, however, a few errors that were encountered while attempting to do this, which is discussed in detail on the Error_Analysis.md file under the 'Server' section.
