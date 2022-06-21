@@ -1,7 +1,7 @@
 asyncio-nats-client==0.7.0
 geos==0.2.1
 haversine==0.4.5
-numpy==1.14.3
+numpy==1.22.0
 python-dateutil==2.7.3
 pytz==2018.4
 PyYAML==3.12
